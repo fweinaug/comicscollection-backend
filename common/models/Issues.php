@@ -1,0 +1,180 @@
+<?php
+
+namespace common\models;
+
+use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\helpers\Url;
+
+/**
+ * This is the model class for table "issues".
+ *
+ * @property int $id
+ * @property int $comic_id
+ * @property int $number
+ * @property string $title
+ * @property int $image_id
+ * @property string $summary
+ * @property integer $created_at
+ * @property integer $updated_at
+ *
+ * @property IssueSettings[] $settings
+ * @property Comics $comic
+ * @property Images $image
+ */
+class Issues extends \yii\db\ActiveRecord
+{
+    public $read;
+    public $rating;
+
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'issues';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['comic_id', 'number', 'image_id'], 'required'],
+            [['comic_id', 'number', 'image_id'], 'integer'],
+            [['title', 'summary'], 'string'],
+            [['read', 'rating'], 'safe'],
+            [['comic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Comics::className(), 'targetAttribute' => ['comic_id' => 'id']],
+            [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Images::className(), 'targetAttribute' => ['image_id' => 'id']],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'comic_id' => 'Comic ID',
+            'number' => 'Number',
+            'title' => 'Title',
+            'image_id' => 'Image ID',
+            'summary' => 'Summary',
+            'read' => 'Read',
+            'rating' => 'Rating',
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function fields()
+    {
+        return [
+            'id',
+            'comicId' => function ($model) {
+                return $model->comic_id;
+            },
+            'number',
+            'title',
+            'summary',
+            'imageUrl' => function ($model) {
+                return $model->getImageUrl();
+            },
+            'read' => function ($model) {
+                return (bool)$model->read;
+            },
+            'rating' => function ($model) {
+                return (int)$model->rating;
+            },
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSettings()
+    {
+        return $this->hasMany(IssueSettings::className(), ['issue_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getComic()
+    {
+        return $this->hasOne(Comics::className(), ['id' => 'comic_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImage()
+    {
+        return $this->hasOne(Images::className(), ['id' => 'image_id']);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        if ($insert)
+        {
+            $comic = $this->comic;
+            $comic->issues_total += 1;
+            if ($comic->image_id === null)
+                $comic->image_id = $this->image_id;
+            $comic->save();
+        }
+
+        parent::afterSave($insert, $changedAttributes);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterDelete()
+    {
+        $comic = $this->comic;
+        $comic->issues_total -= 1;
+        $comic->save();
+
+        parent::afterDelete();
+    }
+
+    public function getImageUrl()
+    {
+        return Images::getUrl($this->image_id);
+    }
+
+    public static function getIssuesOfComicWithSettings($comicId, $profileId)
+    {
+        return Issues::find()
+            ->select([ 'issue_settings.*', 'issues.*' ])
+            ->joinWith('settings')
+            ->where([ 'issues.comic_id' => $comicId, 'issue_settings.profile_id' => $profileId ])
+            ->all();
+    }
+
+    public static function getNextIssueNumber($comicId) {
+        $number = Issues::find()
+            ->select('number')
+            ->where(['issues.comic_id' => $comicId])
+            ->max('number');
+
+        return intval($number) + 1;
+    }
+}
