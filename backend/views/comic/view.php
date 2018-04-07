@@ -34,10 +34,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             [
-                'attribute' => 'image_data',
                 'label' => 'Image',
-                'value' => $model->getImageUrl(),
-                'format' => [ 'image', [ 'width'=>'150','height'=>'200' ]],
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a(
+                        Html::img($model->getImageUrl(), [ 'width'=>'150','height'=>'200' ]),
+                        ['image/view', 'id' => $model->image_id]
+                    );
+                }
             ],
             'issues_total',
             [

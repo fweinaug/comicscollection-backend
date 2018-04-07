@@ -5,11 +5,16 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\Url;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "images".
  *
  * @property int $id
+ * @property int $width
+ * @property int $height
+ * @property int $size
+ * @property string $mime
  * @property resource $image_data
  * @property integer $created_at
  * @property integer $updated_at
@@ -47,7 +52,7 @@ class Images extends \yii\db\ActiveRecord
         return [
             [['image_data'], 'required'],
             [['image_data'], 'string'],
-            [['image_file'], 'safe']
+            [['width', 'height', 'size', 'mime', 'image_file'], 'safe']
         ];
     }
 
@@ -58,6 +63,10 @@ class Images extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'width' => 'Width',
+            'height' => 'Height',
+            'size' => 'Size',
+            'mime' => 'Mime-Type',
             'image_data' => 'Image Data',
         ];
     }
@@ -86,5 +95,26 @@ class Images extends \yii\db\ActiveRecord
     public static function getUrl($id)
     {
         return Url::to(['image/raw', 'id' => $id], true);
+    }
+
+    public function setData(UploadedFile $file) {
+        $info = getimagesize($file->tempName);
+        if (!$info)
+            return false;
+
+        $width = $info[0];
+        $height = $info[1];
+        if ($width === 0 || $height === 0)
+            return false;
+
+        $mime = $info['mime'];
+
+        $this->image_data = file_get_contents($file->tempName);
+        $this->size = $file->size;
+        $this->width = $width;
+        $this->height = $height;
+        $this->mime = $mime;
+
+        return true;
     }
 }

@@ -3,7 +3,6 @@ namespace api\controllers;
 
 use yii\filters\VerbFilter;
 use yii\rest\Controller;
-use yii\web\UploadedFile;
 use common\models\Comics;
 use common\models\Issues;
 use common\models\IssueSettings;

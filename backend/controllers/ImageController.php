@@ -58,14 +58,14 @@ class ImageController extends Controller
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         
+        $model = $this->findModel($id);
+
         \Yii::$app->getResponse()->getHeaders()
             ->set('Pragma', 'public')
             ->set('Expires', '0')
             ->set('Cache-Control', 'must-revalidate, post-check=0, pre-check=0')
             ->set('Content-Transfer-Encoding', 'binary')
-            ->set('Content-type', 'image/jpeg');
-
-        $model = $this->findModel($id);
+            ->set('Content-type', $model->mime);
 
         return $model->image_data;
     }
@@ -95,10 +95,16 @@ class ImageController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $file = UploadedFile::getInstance($model, 'image_file');
 
-            $model->image_data = file_get_contents($file->tempName);
+            if ($file && !$file->hasError && $model->setData($file)) {
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            } else {
+                $message = 'Image could not be uploaded.';
+                if ($file && $file->hasError)
+                    $message .= " (Error Code: $file->error)";
 
-            if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                \Yii::$app->session->setFlash('error', $message);
             }
         }
 

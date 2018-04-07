@@ -44,9 +44,8 @@ class IssueController extends Controller
                 $file = UploadedFile::getInstanceByName('upload');
 
                 $image = new Images();
-                $image->image_data = file_get_contents($file->tempName);
 
-                if ($image->save()) {
+                if ($image->setData($file) && $image->save()) {
                     $model->image_id = $image->id;
                     $model->number = Issues::getNextIssueNumber($model->comic_id);
 
