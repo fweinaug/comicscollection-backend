@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'value' => function ($model) {
                     return Html::a(
-                        Html::img($model->getImageUrl(), [ 'width'=>'450','height'=>'600' ]),
+                        Html::img($model->getOriginalUrl(), [ 'width'=>'450','height'=>'600' ]),
                         ['render', 'id' => $model->id]
                     );
                 }
@@ -45,7 +45,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {
                     return "$model->width x $model->height";
                 }
-
             ],
             'size:shortSize',
             'mime',

@@ -45,6 +45,15 @@ class ImageController extends Controller
         ]);
     }
 
+    public function actionThumb($id)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+
+        $model = $this->findModel($id);
+        
+        return $model->thumb_data;
+    }
+
     public function actionRaw($id)
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;

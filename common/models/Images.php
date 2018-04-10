@@ -5,7 +5,9 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\Url;
+use yii\imagine\Image;
 use yii\web\UploadedFile;
+use Imagine\Image\Box;
 
 /**
  * This is the model class for table "images".
@@ -16,6 +18,7 @@ use yii\web\UploadedFile;
  * @property int $size
  * @property string $mime
  * @property resource $image_data
+ * @property resource $thumb_data
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -50,8 +53,8 @@ class Images extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['image_data'], 'required'],
-            [['image_data'], 'string'],
+            [['image_data', 'thumb_data'], 'required'],
+            [['image_data', 'thumb_data'], 'string'],
             [['width', 'height', 'size', 'mime', 'image_file'], 'safe']
         ];
     }
@@ -68,6 +71,7 @@ class Images extends \yii\db\ActiveRecord
             'size' => 'Size',
             'mime' => 'Mime-Type',
             'image_data' => 'Image Data',
+            'thumb_data' => 'Thumb Data',
         ];
     }
 
@@ -87,6 +91,11 @@ class Images extends \yii\db\ActiveRecord
         return $this->hasMany(Issues::className(), ['image_id' => 'id']);
     }
 
+    public function getOriginalUrl()
+    {
+        return Url::to(['image/raw', 'id' => $this->id], true);
+    }
+
     public function getImageUrl()
     {
         return self::getUrl($this->id);
@@ -94,7 +103,7 @@ class Images extends \yii\db\ActiveRecord
 
     public static function getUrl($id)
     {
-        return Url::to(['image/raw', 'id' => $id], true);
+        return Url::to(['image/thumb', 'id' => $id], true);
     }
 
     public function setData(UploadedFile $file) {
@@ -110,11 +119,23 @@ class Images extends \yii\db\ActiveRecord
         $mime = $info['mime'];
 
         $this->image_data = file_get_contents($file->tempName);
+        $this->thumb_data = $this->createThumbnail($file->tempName);
         $this->size = $file->size;
         $this->width = $width;
         $this->height = $height;
         $this->mime = $mime;
 
         return true;
+    }
+
+    private function createThumbnail($filename) {
+        $options = array(
+            'jpeg_quality' => 90,
+        );
+
+        return Image::getImagine()
+            ->open($filename)
+            ->thumbnail(new Box(125, 125))
+            ->get('jpg', $options);
     }
 }

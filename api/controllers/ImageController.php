@@ -20,4 +20,16 @@ class ImageController extends Controller
 
         return $image;
     }
+
+    public function actionThumb($id)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+
+        $image = Images::find()
+            ->select('thumb_data')
+            ->where([ 'id' => $id ])
+            ->scalar();
+
+        return $image;
+    }
 }
