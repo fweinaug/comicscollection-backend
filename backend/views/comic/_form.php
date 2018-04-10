@@ -27,6 +27,10 @@ use yii\widgets\ActiveForm;
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+
+        <?php if ($next): ?>
+        <?= Html::submitButton('Next Comic', ['class' => 'btn btn-default', 'name' => 'next']) ?>
+        <?php endif ?>
     </div>
 
     <?php ActiveForm::end(); ?>

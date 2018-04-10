@@ -72,7 +72,10 @@ class ComicController extends Controller
         $model = new Comics();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if (Yii::$app->request->post('next', 'view') == 'view')
+                return $this->redirect(['view', 'id' => $model->id]);
+            else
+                return $this->redirect(['create']);
         }
 
         return $this->render('create', [
