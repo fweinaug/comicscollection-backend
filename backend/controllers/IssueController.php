@@ -37,6 +37,17 @@ class IssueController extends Controller
     {
         $searchModel = new IssuesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->setSort([
+            'defaultOrder' => [ 'comic_id' => SORT_ASC, 'number' => SORT_ASC ],
+            'attributes' => [
+                'comic_id' => [
+                    'asc' => [ 'comics.name' => SORT_ASC ],
+                    'desc' => [ 'comics.name' => SORT_DESC ],
+                ],
+                'number',
+                'title',
+            ],
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

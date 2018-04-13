@@ -35,7 +35,20 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::img($url, [ 'width'=>'75','height'=>'100' ]);
                 },
             ],
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'attribute' => 'width',
+                'label' => 'Resolution',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return "$model->width x $model->height";
+                }
+            ],
+            'size:shortSize',
+
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'contentOptions' => ['style' => 'width:100px;'],
+            ],
         ],
     ]); ?>
     <?php Pjax::end(); ?>

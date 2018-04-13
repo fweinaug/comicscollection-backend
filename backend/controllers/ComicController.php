@@ -38,6 +38,9 @@ class ComicController extends Controller
     {
         $searchModel = new ComicsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->setSort([
+            'defaultOrder' => [ 'name' => SORT_ASC ],
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

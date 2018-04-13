@@ -28,7 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             'name',
             'issues_total',
             [
@@ -40,7 +39,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'concluded:boolean',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'contentOptions' => ['style' => 'width:100px;'],
+            ],
         ],
     ]); ?>
     <?php Pjax::end(); ?>

@@ -18,8 +18,7 @@ class ImagesSearch extends Images
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['image_data'], 'safe'],
+            [['id', 'width', 'height', 'size'], 'integer'],
         ];
     }
 
@@ -62,7 +61,9 @@ class ImagesSearch extends Images
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'image_data', $this->image_data]);
+        $query->andFilterWhere(['>=', 'size', $this->size]);
+        $query->andFilterWhere(['>=', 'width', $this->width]);
+        $query->andFilterWhere(['>=', 'height', $this->height]);
 
         return $dataProvider;
     }

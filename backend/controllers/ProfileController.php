@@ -37,6 +37,9 @@ class ProfileController extends Controller
     {
         $searchModel = new ProfilesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->setSort([
+            'defaultOrder' => [ 'name' => SORT_ASC ],
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
