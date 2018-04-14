@@ -58,7 +58,10 @@ class ComicController extends Controller
     {
         $searchModel = new IssuesSearch();
         $issuesDataProvider = $searchModel->search(['IssuesSearch' => ['comic_id' => $id]]);
-
+        $issuesDataProvider->setSort([
+            'defaultOrder' => [ 'number' => SORT_ASC ],
+        ]);
+        
         return $this->render('view', [
             'model' => $this->findModel($id),
             'issuesDataProvider' => $issuesDataProvider,
