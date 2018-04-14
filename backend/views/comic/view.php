@@ -62,24 +62,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'number',
-            'title',
             [
-                'label' => 'Image',
                 'format' => 'html',
                 'content' => function($model) {
                     $url = $model->getImageUrl();
                     return Html::img($url, [ 'width'=>'75','height'=>'100' ]);
-                }
+                },
+                'contentOptions' => ['style' => 'width:100px;'],
             ],
+            'number',
+            'title',
 
             [
                 'class' => 'yii\grid\ActionColumn',
                 'urlCreator' => function ($action, $model, $key, $index) {
                     return Url::to(['issue/'.$action, 'id' => $model->id]);
-            }
-        ],
+                },
+                'contentOptions' => ['style' => 'width:100px;'],
+            ],
         ],
     ]); ?>
 

@@ -29,6 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             [
+                'format' => 'html',
+                'content' => function($model) {
+                    $url = $model->getImageUrl();
+                    return Html::img($url, [ 'width'=>'75','height'=>'100' ]);
+                },
+                'contentOptions' => ['style' => 'width:100px;'],
+            ],
+            [
                 'attribute' => 'comic_id',
                 'label' => 'Comic',
                 'value' => 'comic.name',
@@ -37,14 +45,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'number',
             'title',
-            [
-                'label' => 'Image',
-                'format' => 'html',
-                'content' => function($model) {
-                    $url = $model->getImageUrl();
-                    return Html::img($url, [ 'width'=>'75','height'=>'100' ]);
-                }
-            ],
 
             [
                 'class' => 'yii\grid\ActionColumn',

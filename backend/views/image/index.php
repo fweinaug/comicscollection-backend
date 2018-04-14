@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             [
-                'label' => 'Image',
+                'label' => 'Thumbnail',
                 'format' => 'html',
                 'content' => function($model) {
                     $url = $model->getImageUrl();
