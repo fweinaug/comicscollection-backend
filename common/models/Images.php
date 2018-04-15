@@ -135,7 +135,7 @@ class Images extends \yii\db\ActiveRecord
 
         return Image::getImagine()
             ->open($filename)
-            ->thumbnail(new Box(125, 125))
+            ->thumbnail(new Box(250, 250))
             ->get('jpg', $options);
     }
 }
