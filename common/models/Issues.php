@@ -54,6 +54,7 @@ class Issues extends \yii\db\ActiveRecord
             [['comic_id', 'number', 'image_id'], 'required'],
             [['comic_id', 'number', 'image_id'], 'integer'],
             [['title', 'summary'], 'string'],
+            [['title', 'summary'], 'default', 'value' => null],
             [['read', 'rating'], 'safe'],
             [['comic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Comics::className(), 'targetAttribute' => ['comic_id' => 'id']],
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Images::className(), 'targetAttribute' => ['image_id' => 'id']],

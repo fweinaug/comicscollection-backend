@@ -46,6 +46,7 @@ class Profiles extends \yii\db\ActiveRecord
             [['name'], 'required'],
             [['name'], 'string', 'max' => 25],
             [['accent_color'], 'string', 'max' => 7],
+            [['accent_color'], 'default', 'value' => null],
         ];
     }
 

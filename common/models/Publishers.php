@@ -48,6 +48,7 @@ class Publishers extends \yii\db\ActiveRecord
             [['name'], 'required'],
             [['image_id'], 'integer'],
             [['description', 'website'], 'string'],
+            [['description', 'website'], 'default', 'value' => null],
             [['name'], 'string', 'max' => 100],
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Images::className(), 'targetAttribute' => ['image_id' => 'id']],
         ];
