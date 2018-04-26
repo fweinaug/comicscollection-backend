@@ -20,6 +20,7 @@ class IssueController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'create' => ['post'],
+                    'update' => ['post'],
                 ],
             ],
         ];
@@ -62,6 +63,18 @@ class IssueController extends Controller
         } catch (\Throwable $e) {
             $transaction->rollBack();
             throw $e;
+        }
+
+        return null;
+    }
+
+    public function actionUpdate($profileId, $issueId)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        $model = Issues::findOne($issueId);
+        if ($model !== null && $model->load(\Yii::$app->request->post(), '') && $model->save()) {
+            return Issues::getIssueWithSettings($issueId, $profileId);
         }
 
         return null;
