@@ -135,9 +135,11 @@ class Issues extends \yii\db\ActiveRecord
         if ($insert)
         {
             $comic = $this->comic;
-            $comic->issues_total += 1;
+            $comic->issues_count++;
+
             if ($comic->image_id === null)
                 $comic->image_id = $this->image_id;
+
             $comic->save();
         }
 
@@ -150,7 +152,8 @@ class Issues extends \yii\db\ActiveRecord
     public function afterDelete()
     {
         $comic = $this->comic;
-        $comic->issues_total -= 1;
+        $comic->issues_count--;
+
         $comic->save();
 
         parent::afterDelete();

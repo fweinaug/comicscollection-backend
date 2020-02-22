@@ -29,7 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'name',
-            'issues_total',
             [
                 'attribute' => 'publisher_id',
                 'label' => 'Publisher',
@@ -37,8 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => ArrayHelper::map(Publishers::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
 
             ],
+            'issues_count',
+            'issues_total',
             'concluded:boolean',
-
             [
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'width:100px;'],

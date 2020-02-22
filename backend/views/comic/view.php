@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-        <?= Html::a('Add Issue', ['issue/create', 'comic_id' => $model->id, 'number' => $model->issues_total + 1], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('Add Issue', ['issue/create', 'comic_id' => $model->id, 'number' => $model->issues_count + 1], ['class' => 'btn btn-default']) ?>
     </p>
 
     <?= DetailView::widget([
@@ -33,6 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
+            [
+                'label' => 'Publisher',
+                'value' => Html::a($model->publisher->name, ['publisher/view', 'id' => $model->publisher->id]),
+                'format' => 'raw',
+            ],
             [
                 'label' => 'Image',
                 'format' => 'html',
@@ -43,12 +48,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     );
                 }
             ],
+            'issues_count',
             'issues_total',
-            [
-                'label' => 'Publisher',
-                'value' => Html::a($model->publisher->name, ['publisher/view', 'id' => $model->publisher->id]),
-                'format' => 'raw',
-            ],
             'concluded:boolean',
             'created_at:datetime',
             'updated_at:datetime',

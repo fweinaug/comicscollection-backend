@@ -18,7 +18,7 @@ class ComicsSearch extends Comics
     public function rules()
     {
         return [
-            [['id', 'image_id', 'publisher_id', 'issues_total', 'concluded'], 'integer'],
+            [['id', 'image_id', 'publisher_id', 'issues_total', 'issues_count', 'concluded'], 'integer'],
             [['name', 'created_at'], 'safe'],
         ];
     }
@@ -63,6 +63,7 @@ class ComicsSearch extends Comics
             'image_id' => $this->image_id,
             'publisher_id' => $this->publisher_id,
             'issues_total' => $this->issues_total,
+            'issues_count' => $this->issues_count,
             'concluded' => $this->concluded,
             'created_at' => $this->created_at,
         ]);

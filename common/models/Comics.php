@@ -4,7 +4,6 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use yii\helpers\Url;
 
 /**
  * This is the model class for table "comics".
@@ -14,6 +13,7 @@ use yii\helpers\Url;
  * @property int $image_id
  * @property int $publisher_id
  * @property int $issues_total
+ * @property int $issues_count
  * @property int $concluded
  * @property integer $created_at
  * @property integer $updated_at
@@ -54,10 +54,10 @@ class Comics extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'publisher_id', 'concluded'], 'required'],
-            [['image_id', 'publisher_id', 'issues_total'], 'integer'],
+            [['image_id', 'publisher_id', 'issues_total', 'issues_count'], 'integer'],
             [['profile_id', 'issues_read', 'concluded', 'favorite'], 'safe'],
             [['name'], 'string', 'max' => 100],
-            [['issues_total'], 'default', 'value' => 0],
+            [['issues_count'], 'default', 'value' => 0],
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Images::className(), 'targetAttribute' => ['image_id' => 'id']],
         ];
     }
@@ -73,6 +73,7 @@ class Comics extends \yii\db\ActiveRecord
             'image_id' => 'Image ID',
             'publisher_id' => 'Publisher ID',
             'issues_total' => 'Issues Total',
+            'issues_count' => 'Issues Count',
             'issues_read' => 'Issues Read',
             'concluded' => 'Concluded',
             'favorite' => 'Favorite',
@@ -87,8 +88,8 @@ class Comics extends \yii\db\ActiveRecord
         return [
             'id',
             'name',
-            'issuesTotal' => function ($model) {
-                return (int)$model->issues_total;
+            'issuesCount' => function ($model) {
+                return (int)$model->issues_count;
             },
             'issuesRead' => function ($model) {
                 return (int)$model->issues_read;
