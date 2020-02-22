@@ -38,7 +38,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'comic_id',
                 'label' => 'Comic',
-                'value' => 'comic.name',
+                'content' => function ($model) {
+                    return Html::a($model->comic->name, ['comic/view', 'id' => $model->comic->id]);
+                },
                 'filter' => ArrayHelper::map(Comics::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
 
             ],

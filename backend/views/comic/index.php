@@ -32,9 +32,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'publisher_id',
                 'label' => 'Publisher',
-                'value' => 'publisher.name',
+                'content' => function ($model) {
+                    return Html::a($model->publisher->name, ['publisher/view', 'id' => $model->publisher->id]);
+                },
                 'filter' => ArrayHelper::map(Publishers::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
-
             ],
             'issues_count',
             'issues_total',
