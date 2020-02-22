@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'title')->textInput() ?>
 
-    <?= $form->field($model, 'image_id')->textInput() ?>
+    <?= $form->field($model, 'release_date')->textInput() ?>
 
     <?= $form->field($model, 'summary')->textarea(['rows' => 6]) ?>
 

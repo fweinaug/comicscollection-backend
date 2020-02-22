@@ -15,6 +15,7 @@ use yii\helpers\Url;
  * @property string $title
  * @property int $image_id
  * @property string $summary
+ * @property string $release_date
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -51,10 +52,12 @@ class Issues extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['comic_id', 'number', 'image_id'], 'required'],
+            [['comic_id', 'number', 'title'], 'required'],
             [['comic_id', 'number', 'image_id'], 'integer'],
             [['title', 'summary'], 'string'],
+            [['release_date'], 'safe'],
             [['title', 'summary'], 'default', 'value' => null],
+            ['release_date', 'datetime', 'format' => 'php:Y-m-d'],
             [['read', 'rating'], 'safe'],
             [['comic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Comics::className(), 'targetAttribute' => ['comic_id' => 'id']],
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Images::className(), 'targetAttribute' => ['image_id' => 'id']],
@@ -73,6 +76,7 @@ class Issues extends \yii\db\ActiveRecord
             'title' => 'Title',
             'image_id' => 'Image ID',
             'summary' => 'Summary',
+            'release_date' => 'Release Date',
             'read' => 'Read',
             'rating' => 'Rating',
         ];

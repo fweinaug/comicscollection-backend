@@ -46,6 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     );
                 }
             ],
+            'release_date:date',
             'summary:ntext',
             'created_at:datetime',
             'updated_at:datetime',

@@ -27,7 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             [
                 'format' => 'html',
                 'content' => function($model) {
@@ -45,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'number',
             'title',
-
+            'release_date',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'contentOptions' => ['style' => 'width:100px;'],
