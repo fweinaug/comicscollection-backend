@@ -38,6 +38,7 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Comics', 'url' => ['/comic'], 'active' => $this->context->id == 'comic'],
         ['label' => 'Issues', 'url' => ['/issue'], 'active' => $this->context->id == 'issue'],
+        ['label' => 'People', 'url' => ['/person'], 'active' => $this->context->id == 'person'],
         ['label' => 'Publishers', 'url' => ['/publisher'], 'active' => $this->context->id == 'publisher'],
         ['label' => 'Images', 'url' => ['/image'], 'active' => $this->context->id == 'image'],
         ['label' => 'Profiles', 'url' => ['/profile'], 'active' => $this->context->id == 'profile'],
