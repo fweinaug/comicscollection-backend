@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "people".
@@ -12,6 +13,7 @@ use Yii;
  * @property string $last_name
  * @property int $created_at
  * @property int $updated_at
+ * @property string name
  */
 class People extends \yii\db\ActiveRecord
 {
@@ -21,6 +23,16 @@ class People extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'people';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
     }
 
     /**
@@ -46,5 +58,10 @@ class People extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+    
+    public function getName()
+    {
+        return $this->first_name.' '.$this->last_name;
     }
 }
