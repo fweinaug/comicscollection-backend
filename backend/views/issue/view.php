@@ -41,10 +41,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Image',
                 'format' => 'html',
                 'value' => function ($model) {
-                    return Html::a(
-                        Html::img($model->getImageUrl(), [ 'width'=>'150','height'=>'200' ]),
+                    $url = $model->getImageUrl();
+                    return $url !== null ? Html::a(
+                        Html::img($url, [ 'width'=>'150','height'=>'200' ]),
                         ['image/view', 'id' => $model->image_id]
-                    );
+                    ) : null;
                 }
             ],
             'release_date:date',

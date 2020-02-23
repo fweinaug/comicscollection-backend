@@ -65,10 +65,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Image',
                 'format' => 'html',
                 'value' => function ($model) {
-                    return Html::a(
-                        Html::img($model->getImageUrl(), [ 'width'=>'150','height'=>'200' ]),
+                    $url = $model->getImageUrl();
+                    return $url !== null ? Html::a(
+                        Html::img($url, [ 'width'=>'150','height'=>'200' ]),
                         ['image/view', 'id' => $model->image_id]
-                    );
+                    ) : null;
                 }
             ],
             'issues_count',
@@ -88,7 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'content' => function($model) {
                     $url = $model->getImageUrl();
-                    return Html::a(Html::img($url, [ 'width'=>'75','height'=>'100' ]), ['issue/view', 'id' => $model->id]);
+                    return $url !== null ? Html::a(Html::img($url, [ 'width'=>'75','height'=>'100' ]), ['issue/view', 'id' => $model->id]) : null;
                 },
                 'contentOptions' => ['style' => 'width:100px;'],
             ],
