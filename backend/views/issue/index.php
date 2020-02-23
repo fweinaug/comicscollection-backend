@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'content' => function($model) {
                     $url = $model->getImageUrl();
-                    return Html::img($url, [ 'width'=>'75','height'=>'100' ]);
+                    return $url !== null ? Html::img($url, [ 'width'=>'75','height'=>'100' ]) : null;
                 },
                 'contentOptions' => ['style' => 'width:100px;'],
             ],

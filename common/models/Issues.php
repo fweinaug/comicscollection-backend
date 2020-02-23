@@ -165,6 +165,9 @@ class Issues extends \yii\db\ActiveRecord
 
     public function getImageUrl()
     {
+        if (!$this->image_id)
+            return null;
+
         return Images::getUrl($this->image_id);
     }
 

@@ -27,7 +27,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
+            [
+                'format' => 'html',
+                'content' => function($model) {
+                    $url = $model->getImageUrl();
+                    return $url !== null ? Html::img($url, [ 'width'=>'75','height'=>'100' ]) : null;
+                },
+                'contentOptions' => ['style' => 'width:100px;'],
+            ],
             [
                 'attribute' => 'name',
                 'format' => 'html',
