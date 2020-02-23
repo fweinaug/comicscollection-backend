@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = 'Creators';
                 'format' => 'html',
                 'value' => function ($model) {
                     return Html::a($model->person->name, ['person/view', 'id' => $model->person->id]);
-                }
+                },
             ],
             'contribution',
 

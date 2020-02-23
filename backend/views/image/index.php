@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'content' => function($model) {
                     $url = $model->getImageUrl();
-                    return Html::img($url, [ 'width'=>'75','height'=>'100' ]);
+                    return Html::a(Html::img($url, [ 'width'=>'75','height'=>'100' ]), ['view', 'id' => $model->id]);
                 },
             ],
             [

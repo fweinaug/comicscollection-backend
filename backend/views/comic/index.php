@@ -28,7 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'name',
+            [
+                'attribute' => 'name',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a($model->name, ['view', 'id' => $model->id]);
+                },
+            ],
             [
                 'attribute' => 'publisher_id',
                 'label' => 'Publisher',

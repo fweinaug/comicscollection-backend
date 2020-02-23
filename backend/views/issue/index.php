@@ -45,7 +45,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ],
             'number',
-            'title',
+            [
+                'attribute' => 'title',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a($model->title, ['view', 'id' => $model->id]);
+                },
+            ],
             'release_date',
             [
                 'class' => 'yii\grid\ActionColumn',

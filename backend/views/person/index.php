@@ -26,8 +26,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'first_name',
-            'last_name',
+            [
+                'attribute' => 'last_name',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a($model->last_name, ['view', 'id' => $model->id]);
+                },
+            ],
+            [
+                'attribute' => 'first_name',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a($model->first_name, ['view', 'id' => $model->id]);
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
