@@ -98,4 +98,22 @@ class Publishers extends \yii\db\ActiveRecord
 
         return Images::getUrl($this->image_id);
     }
+
+    public function updateImage(Images $image)
+    {
+        if ($image->save()) {
+            $currentImage = $this->image;
+
+            $this->image_id = $image->id;
+            $this->save();
+
+            if ($currentImage !== null) {
+                $currentImage->delete();
+            }
+
+            return true;
+        }
+
+        return false;
+    }
 }

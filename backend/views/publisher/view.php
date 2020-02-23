@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Upload Image', ['upload-image', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
     </p>
 
     <?= DetailView::widget([
@@ -30,7 +31,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
-            'image_id',
+            [
+                'label' => 'Image',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a(
+                        Html::img($model->getImageUrl(), [ 'height'=>'200' ]),
+                        ['image/view', 'id' => $model->image_id]
+                    );
+                }
+            ],
             'description:ntext',
             'website:url',
             'created_at:datetime',
