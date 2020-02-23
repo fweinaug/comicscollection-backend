@@ -37,6 +37,9 @@ class PersonController extends Controller
     {
         $searchModel = new PeopleSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->setSort([
+            'defaultOrder' => [ 'last_name' => SORT_ASC ],
+        ]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
