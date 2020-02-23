@@ -17,6 +17,7 @@ use Imagine\Image\Box;
  * @property int $height
  * @property int $size
  * @property string $mime
+ * @property string $filename
  * @property resource $image_data
  * @property resource $thumb_data
  * @property integer $created_at
@@ -55,7 +56,7 @@ class Images extends \yii\db\ActiveRecord
         return [
             [['image_data', 'thumb_data'], 'required'],
             [['image_data', 'thumb_data'], 'string'],
-            [['width', 'height', 'size', 'mime', 'image_file'], 'safe']
+            [['width', 'height', 'size', 'mime', 'filename', 'image_file'], 'safe']
         ];
     }
 
@@ -70,6 +71,7 @@ class Images extends \yii\db\ActiveRecord
             'height' => 'Height',
             'size' => 'Size',
             'mime' => 'Mime-Type',
+            'filename' => 'Filename',
             'image_data' => 'Image Data',
             'thumb_data' => 'Thumb Data',
         ];
@@ -124,6 +126,7 @@ class Images extends \yii\db\ActiveRecord
         $this->width = $width;
         $this->height = $height;
         $this->mime = $mime;
+        $this->filename = $file->name;
 
         return true;
     }
