@@ -14,10 +14,10 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+
     <?php $publishers = ArrayHelper::map(Publishers::find()->orderBy('name')->asArray()->all(), 'id', 'name') ?>
     <?= $form->field($model, 'publisher_id')->dropDownList($publishers)->label('Publisher') ?>
-
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'issues_total')->textInput() ?>
 

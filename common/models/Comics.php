@@ -21,6 +21,7 @@ use yii\behaviors\TimestampBehavior;
  * @property Images $image
  * @property Publishers $publisher
  * @property ComicSettings[] $settings
+ * @property ComicCreators[] $creators
  * @property Issues[] $issues
  */
 class Comics extends \yii\db\ActiveRecord
@@ -132,6 +133,14 @@ class Comics extends \yii\db\ActiveRecord
     public function getSettings()
     {
         return $this->hasMany(ComicSettings::className(), ['comic_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCreators()
+    {
+        return $this->hasMany(ComicCreators::className(), ['comic_id' => 'id']);
     }
 
     /**

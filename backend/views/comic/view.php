@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
         <?= Html::a('Add Issue', ['issue/create', 'comic_id' => $model->id, 'number' => $model->issues_count + 1], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('Manage Creators', ['/comic-creators', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
     </p>
 
     <?= DetailView::widget([
@@ -37,6 +38,28 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Publisher',
                 'value' => Html::a($model->publisher->name, ['publisher/view', 'id' => $model->publisher->id]),
                 'format' => 'raw',
+            ],
+            [
+                'label' => 'Creators',
+                'format' => 'html',
+                'value' => function ($model) {
+                    $creators = $model->creators;
+                    if (empty($model->creators)) {
+                        return null;
+                    }
+
+                    $items = array_map(function ($creator) {
+                        $text = Html::a($creator->person->name, ['person/view', 'id' => $creator->person->id]);
+
+                        if (!empty($creator->contribution)) {
+                            $text .= " ($creator->contribution)";
+                        }
+
+                        return $text;
+                    }, $creators);
+
+                    return Html::ul($items, ['encode' => false, 'class' => 'list-unstyled', 'style' => 'margin:0']);
+                }
             ],
             [
                 'label' => 'Image',
