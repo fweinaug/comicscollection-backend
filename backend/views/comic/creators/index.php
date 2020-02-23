@@ -37,7 +37,6 @@ $this->params['breadcrumbs'][] = 'Creators';
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update} {delete}',
-                'template' => '{update} {delete}',
                 'contentOptions' => ['style' => 'width:100px;'],
             ],
         ],

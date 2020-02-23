@@ -16,23 +16,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Image', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             [
-                'label' => 'Thumbnail',
                 'format' => 'html',
                 'content' => function($model) {
                     $url = $model->getImageUrl();
-                    return Html::a(Html::img($url, [ 'width'=>'75','height'=>'100' ]), ['view', 'id' => $model->id]);
+                    return Html::a(Html::img($url, [ 'width'=>'75' ]), ['view', 'id' => $model->id]);
                 },
             ],
             [
@@ -47,6 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {delete}',
                 'contentOptions' => ['style' => 'width:100px;'],
             ],
         ],

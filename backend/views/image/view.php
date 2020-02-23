@@ -15,7 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -34,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'value' => function ($model) {
                     return Html::a(
-                        Html::img($model->getOriginalUrl(), [ 'width'=>'450','height'=>'600' ]),
+                        Html::img($model->getOriginalUrl(), [ 'height'=>'600' ]),
                         ['render', 'id' => $model->id]
                     );
                 }
