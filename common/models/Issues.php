@@ -168,6 +168,30 @@ class Issues extends \yii\db\ActiveRecord
         return Images::getUrl($this->image_id);
     }
 
+    public function updateImage(Images $image)
+    {
+        if ($image->save()) {
+            $currentImage = $this->image;
+
+            $this->image_id = $image->id;
+            $this->save();
+
+            $comic = $this->comic;
+            if ($comic->image_id === null || $this->number <= 1) {
+                $comic->image_id = $image->id;
+                $comic->save();
+            }
+
+            if ($currentImage !== null) {
+                $currentImage->delete();
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
     public static function getIssuesOfComicWithSettings($comicId, $profileId)
     {
         return Issues::find()

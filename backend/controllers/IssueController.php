@@ -3,11 +3,13 @@
 namespace backend\controllers;
 
 use Yii;
+use common\models\Images;
 use common\models\Issues;
 use common\models\IssuesSearch;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * IssueController implements the CRUD actions for Issues model.
@@ -120,6 +122,33 @@ class IssueController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionUploadImage($id)
+    {
+        $model = new Images();
+        $issue = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            $file = UploadedFile::getInstance($model, 'image_file');
+
+            if ($file && !$file->hasError && $model->setData($file)) {
+                if ($issue->updateImage($model)) {
+                    return $this->redirect(['view', 'id' => $issue->id]);
+                }
+            } else {
+                $message = 'Image could not be uploaded.';
+                if ($file && $file->hasError)
+                    $message .= " (Error Code: $file->error)";
+
+                \Yii::$app->session->setFlash('error', $message);
+            }
+        }
+
+        return $this->render('upload-image', [
+            'model' => $model,
+            'issue' => $issue,
+        ]);
     }
 
     /**
