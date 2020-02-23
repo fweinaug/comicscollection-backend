@@ -84,18 +84,23 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $issuesDataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             [
                 'format' => 'html',
                 'content' => function($model) {
                     $url = $model->getImageUrl();
-                    return Html::img($url, [ 'width'=>'75','height'=>'100' ]);
+                    return Html::a(Html::img($url, [ 'width'=>'75','height'=>'100' ]), ['issue/view', 'id' => $model->id]);
                 },
                 'contentOptions' => ['style' => 'width:100px;'],
             ],
             'number',
-            'title',
+            [
+                'attribute' => 'title',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a($model->title, ['issue/view', 'id' => $model->id]);
+                },
+            ],
+            'release_date',
 
             [
                 'class' => 'yii\grid\ActionColumn',
