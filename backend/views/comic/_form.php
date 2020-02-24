@@ -8,6 +8,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model common\models\Comics */
 /* @var $form yii\widgets\ActiveForm */
+/* @var $next boolean */
 ?>
 
 <div class="comics-form">
