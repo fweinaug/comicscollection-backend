@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {
                     $url = $model->getImageUrl();
                     return $url !== null ? Html::a(
-                        Html::img($url, [ 'width'=>'150','height'=>'200' ]),
+                        Html::img($url, [ 'height'=>'200' ]),
                         ['image/view', 'id' => $model->image_id]
                     ) : null;
                 }
