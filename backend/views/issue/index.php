@@ -44,7 +44,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => ArrayHelper::map(Comics::find()->orderBy('name')->asArray()->all(), 'id', 'name'),
 
             ],
-            'number',
+            [
+                'attribute' => 'number',
+                'contentOptions' => ['style' => 'width:100px;'],
+            ],
             [
                 'attribute' => 'title',
                 'format' => 'html',
