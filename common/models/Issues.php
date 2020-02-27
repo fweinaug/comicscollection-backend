@@ -89,13 +89,12 @@ class Issues extends \yii\db\ActiveRecord
     {
         return [
             'id',
-            'comicId' => function ($model) {
-                return $model->comic_id;
-            },
+            'comic_id',
             'number',
             'title',
             'summary',
-            'imageUrl' => function ($model) {
+            'release_date',
+            'thumbnail_url' => function ($model) {
                 return $model->getImageUrl();
             },
             'read' => function ($model) {
@@ -103,6 +102,12 @@ class Issues extends \yii\db\ActiveRecord
             },
             'rating' => function ($model) {
                 return (int)$model->rating;
+            },
+            'created_at' => function ($model) {
+                return date(DATE_ATOM, $model->created_at);
+            },
+            'updated_at' => function ($model) {
+                return date(DATE_ATOM, $model->updated_at);
             },
         ];
     }

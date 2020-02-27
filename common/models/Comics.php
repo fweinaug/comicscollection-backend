@@ -89,13 +89,12 @@ class Comics extends \yii\db\ActiveRecord
         return [
             'id',
             'name',
-            'issuesCount' => function ($model) {
-                return (int)$model->issues_count;
-            },
-            'issuesRead' => function ($model) {
+            'issues_total',
+            'issues_count',
+            'issues_read' => function ($model) {
                 return (int)$model->issues_read;
             },
-            'imageUrl' => function ($model) {
+            'thumbnail_url' => function ($model) {
                 return $model->getImageUrl();
             },
             'concluded' => function ($model) {
@@ -105,9 +104,16 @@ class Comics extends \yii\db\ActiveRecord
             'favorite' => function ($model) {
                 return (bool)$model->favorite;
             },
+            'creators',
             'issues' => function ($model) {
                 return Issues::getIssuesOfComicWithSettings($model->id, $model->profile_id);
-            }
+            },
+            'created_at' => function ($model) {
+                return date(DATE_ATOM, $model->created_at);
+            },
+            'updated_at' => function ($model) {
+                return date(DATE_ATOM, $model->updated_at);
+            },
         ];
     }
 

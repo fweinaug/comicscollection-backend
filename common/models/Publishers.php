@@ -67,6 +67,7 @@ class Publishers extends \yii\db\ActiveRecord
             'website' => 'Website',
         ];
     }
+
     /**
      * @inheritdoc
      */
@@ -75,11 +76,17 @@ class Publishers extends \yii\db\ActiveRecord
         return [
             'id',
             'name',
-            'imageUrl' => function ($model) {
+            'thumbnail_url' => function ($model) {
                 return $model->getImageUrl();
             },
             'description',
             'website',
+            'created_at' => function ($model) {
+                return date(DATE_ATOM, $model->created_at);
+            },
+            'updated_at' => function ($model) {
+                return date(DATE_ATOM, $model->updated_at);
+            },
         ];
     }
 

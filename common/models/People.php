@@ -59,7 +59,26 @@ class People extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
-    
+
+    /**
+     * @inheritdoc
+     */
+    public function fields()
+    {
+        return [
+            'id',
+            'name',
+            'first_name',
+            'last_name',
+            'created_at' => function ($model) {
+                return date(DATE_ATOM, $model->created_at);
+            },
+            'updated_at' => function ($model) {
+                return date(DATE_ATOM, $model->updated_at);
+            },
+        ];
+    }
+
     public function getName()
     {
         return $this->first_name.' '.$this->last_name;

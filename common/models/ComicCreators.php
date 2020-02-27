@@ -54,6 +54,17 @@ class ComicCreators extends \yii\db\ActiveRecord
     }
 
     /**
+     * @inheritdoc
+     */
+    public function fields()
+    {
+        return [
+            'person',
+            'contribution',
+        ];
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getComic()
