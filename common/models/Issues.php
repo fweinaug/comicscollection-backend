@@ -89,14 +89,13 @@ class Issues extends \yii\db\ActiveRecord
     {
         return [
             'id',
-            'comic_id',
             'number',
             'title',
+            'image' => function ($model) {
+                return Images::getUrls($model->image_id);
+            },
             'summary',
             'release_date',
-            'thumbnail_url' => function ($model) {
-                return $model->getImageUrl();
-            },
             'read' => function ($model) {
                 return (bool)$model->read;
             },

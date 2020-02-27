@@ -89,13 +89,13 @@ class Comics extends \yii\db\ActiveRecord
         return [
             'id',
             'name',
+            'image' => function ($model) {
+                return Images::getUrls($model->image_id);
+            },
             'issues_total',
             'issues_count',
             'issues_read' => function ($model) {
                 return (int)$model->issues_read;
-            },
-            'thumbnail_url' => function ($model) {
-                return $model->getImageUrl();
             },
             'concluded' => function ($model) {
                 return (bool)$model->concluded;

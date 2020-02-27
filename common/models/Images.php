@@ -108,6 +108,14 @@ class Images extends \yii\db\ActiveRecord
         return Url::to(['image/thumb', 'id' => $id], true);
     }
 
+    public static function getUrls($id)
+    {
+        return [
+            'image_url' => Url::to(['image/raw', 'id' => $id], true),
+            'thumbnail_url' => Url::to(['image/thumb', 'id' => $id], true),
+        ];
+    }
+
     public function setData(UploadedFile $file) {
         $info = getimagesize($file->tempName);
         if (!$info)

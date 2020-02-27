@@ -76,8 +76,8 @@ class Publishers extends \yii\db\ActiveRecord
         return [
             'id',
             'name',
-            'thumbnail_url' => function ($model) {
-                return $model->getImageUrl();
+            'image' => function ($model) {
+                return $model->image_id !== null ? Images::getUrls($model->image_id) : null;
             },
             'description',
             'website',
