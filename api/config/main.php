@@ -58,8 +58,30 @@ return [
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
+            'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
+                [
+                    'class' => 'yii\rest\UrlRule', 'controller' => 'comic',
+                    'extraPatterns' => [
+                        'GET <id>/issues' => 'issues',
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule', 'controller' => 'issue',
+                    'extraPatterns' => [
+                        'PUT <id>/settings' => 'settings',
+                    ],
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'image',
+                    'extraPatterns' => [
+                        'GET <id>/thumbnail' => 'thumbnail',
+                    ],
+                ],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'publisher'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'profile'],
             ],
         ],
     ],

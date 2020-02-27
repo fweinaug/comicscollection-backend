@@ -1,69 +1,41 @@
 <?php
 namespace api\controllers;
 
-use yii\filters\VerbFilter;
+use Yii;
 use yii\rest\Controller;
+use yii\web\Response;
 use common\models\Comics;
 use common\models\Issues;
-use common\models\IssueSettings;
 
 /**
  * Comic controller
  */
 class ComicController extends Controller
 {
-    public function behaviors()
+    public function actionIndex()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'create' => ['post'],
-                    'read'   => ['post'],
-                ],
-            ],
-        ];
-    }
+        \Yii::$app->response->format = Response::FORMAT_JSON;
 
-    public function actionComics($profileId)
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $profileId = Yii::$app->request->headers->get('ProfileID');
 
         return Comics::getComicsWithSettings($profileId);
     }
 
-    public function actionCreate($profileId)
+    public function actionView($id)
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        \Yii::$app->response->format = Response::FORMAT_JSON;
 
-        $model = new Comics();
-        $model->load(\Yii::$app->request->post(), '');
-        if ($model->save()) {
-            return Comics::getComicWithSettings($profileId, $model->id);
-        }
+        $profileId = Yii::$app->request->headers->get('ProfileID');
 
-        return null;
+        return Comics::getComicWithSettings($profileId, $id);
     }
 
-    public function actionRead()
+    public function actionIssues($id)
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        \Yii::$app->response->format = Response::FORMAT_JSON;
 
-        $profileId = \Yii::$app->request->post('profileId');
-        $comicId   = \Yii::$app->request->post('comicId');
-        $issueId   = \Yii::$app->request->post('issueId');
-        $read      = (bool)\Yii::$app->request->post('read');
+        $profileId = Yii::$app->request->headers->get('ProfileID');
 
-        $conditions = [
-            'profile_id' => $profileId,
-            'comic_id' => $comicId,
-        ];
-
-        if ($issueId != null)
-            $conditions['issue_id'] = $issueId;
-
-        IssueSettings::updateAll([ 'read' => $read ], $conditions);
-
-        return Comics::getComicWithSettings($profileId, $comicId);
+        return Issues::getIssuesOfComicWithSettings($id, $profileId);
     }
 }

@@ -2,6 +2,7 @@
 namespace api\controllers;
 
 use yii\rest\Controller;
+use yii\web\Response;
 use common\models\Images;
 
 /**
@@ -9,27 +10,23 @@ use common\models\Images;
  */
 class ImageController extends Controller
 {
-    public function actionRaw($id)
+    public function actionView($id)
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        \Yii::$app->response->format = Response::FORMAT_RAW;
 
-        $image = Images::find()
+        return Images::find()
             ->select('image_data')
             ->where([ 'id' => $id ])
             ->scalar();
-
-        return $image;
     }
 
-    public function actionThumb($id)
+    public function actionThumbnail($id)
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        \Yii::$app->response->format = Response::FORMAT_RAW;
 
-        $image = Images::find()
+        return Images::find()
             ->select('thumb_data')
             ->where([ 'id' => $id ])
             ->scalar();
-
-        return $image;
     }
 }

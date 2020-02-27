@@ -2,6 +2,7 @@
 namespace api\controllers;
 
 use yii\rest\Controller;
+use yii\web\Response;
 use common\models\Publishers;
 
 /**
@@ -9,21 +10,17 @@ use common\models\Publishers;
  */
 class PublisherController extends Controller
 {
-    public function actionPublishers()
+    public function actionIndex()
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        \Yii::$app->response->format = Response::FORMAT_JSON;
         
         return Publishers::find()->all();
     }
 
-    public function actionPublisher($id)
+    public function actionView($id)
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        \Yii::$app->response->format = Response::FORMAT_JSON;
         
-        $publisher = Publishers::find()
-            ->where([ 'id' => $id ])
-            ->one();
-
-        return $publisher;
+        return Publishers::findOne($id);
     }
 }

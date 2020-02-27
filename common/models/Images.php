@@ -111,8 +111,8 @@ class Images extends \yii\db\ActiveRecord
     public static function getUrls($id)
     {
         return [
-            'image_url' => Url::to(['image/raw', 'id' => $id], true),
-            'thumbnail_url' => Url::to(['image/thumb', 'id' => $id], true),
+            'image_url' => Url::to(['image/view', 'id' => $id], true),
+            'thumbnail_url' => Url::to(['image/thumbnail', 'id' => $id], true),
         ];
     }
 

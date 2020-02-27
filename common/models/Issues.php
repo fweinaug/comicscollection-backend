@@ -208,6 +208,15 @@ class Issues extends \yii\db\ActiveRecord
             ->all();
     }
 
+    public static function getIssuesWithSettings($profileId)
+    {
+        return Issues::find()
+            ->select([ 'issue_settings.*', 'issues.*' ])
+            ->joinWith('settings')
+            ->where([ 'issue_settings.profile_id' => $profileId ])
+            ->all();
+    }
+
     public static function getIssueWithSettings($issueId, $profileId)
     {
         return Issues::find()

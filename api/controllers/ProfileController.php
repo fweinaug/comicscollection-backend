@@ -2,6 +2,7 @@
 namespace api\controllers;
 
 use yii\rest\Controller;
+use yii\web\Response;
 use common\models\Profiles;
 
 /**
@@ -9,10 +10,10 @@ use common\models\Profiles;
  */
 class ProfileController extends Controller
 {
-    public function actionProfiles()
+    public function actionIndex()
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+
         return Profiles::find()->all();
     }
 }

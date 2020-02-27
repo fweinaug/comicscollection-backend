@@ -1,12 +1,12 @@
 <?php
 namespace api\controllers;
 
+use Yii;
 use yii\filters\VerbFilter;
 use yii\rest\Controller;
-use yii\web\UploadedFile;
-use common\models\Comics;
+use yii\web\Response;
 use common\models\Issues;
-use common\models\Images;
+use common\models\IssueSettings;
 
 /**
  * Issue controller
@@ -19,64 +19,60 @@ class IssueController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'create' => ['post'],
-                    'update' => ['post'],
+                    'update' => ['PATCH'],
+                    'settings' => ['PUT'],
                 ],
             ],
         ];
     }
 
-    public function actionIssues($profileId, $comicId)
+    public function actionIndex()
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        \Yii::$app->response->format = Response::FORMAT_JSON;
 
-        return Issues::getIssuesOfComicWithSettings($comicId, $profileId);
+        $profileId = Yii::$app->request->headers->get('ProfileID');
+
+        return Issues::getIssuesWithSettings($profileId);
     }
 
-    public function actionCreate($profileId)
-    {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    public function actionView($id) {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
 
-        $transaction = \Yii::$app->db->beginTransaction();
-        try {
-            $model = new Issues();
-            if ($model->load(\Yii::$app->request->post(), ''))
-            {
-                $file = UploadedFile::getInstanceByName('upload');
+        $profileId = Yii::$app->request->headers->get('ProfileID');
 
-                $image = new Images();
-
-                if ($image->setData($file) && $image->save()) {
-                    $model->image_id = $image->id;
-                    $model->number = Issues::getNextIssueNumber($model->comic_id);
-
-                    if ($model->save()) {
-                        $transaction->commit();
-
-                        return Comics::getComicWithSettings($profileId, $model->comic_id);
-                    }
-                }
-            }
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            throw $e;
-        } catch (\Throwable $e) {
-            $transaction->rollBack();
-            throw $e;
-        }
-
-        return null;
+        return Issues::getIssueWithSettings($id, $profileId);
     }
 
-    public function actionUpdate($profileId, $issueId)
+    public function actionUpdate($id)
     {
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        \Yii::$app->response->format = Response::FORMAT_JSON;
 
-        $model = Issues::findOne($issueId);
+        $model = Issues::findOne($id);
         if ($model !== null && $model->load(\Yii::$app->request->post(), '') && $model->save()) {
-            return Issues::getIssueWithSettings($issueId, $profileId);
+            $profileId = Yii::$app->request->headers->get('ProfileID');
+
+            return Issues::getIssueWithSettings($id, $profileId);
         }
 
-        return null;
+        Yii::$app->response->statusCode = 304;
+    }
+
+    public function actionSettings($id)
+    {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $profileId = Yii::$app->request->headers->get('ProfileID');
+        $read      = (int)\Yii::$app->request->post('read');
+
+        $conditions = [
+            'profile_id' => $profileId,
+            'issue_id' => $id,
+        ];
+
+        if (IssueSettings::updateAll([ 'read' => $read ], $conditions) > 0) {
+            return Issues::getIssueWithSettings($id, $profileId);
+        }
+
+        Yii::$app->response->statusCode = 304;
     }
 }
