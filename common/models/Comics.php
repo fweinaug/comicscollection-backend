@@ -23,6 +23,9 @@ use yii\behaviors\TimestampBehavior;
  * @property ComicSettings[] $settings
  * @property ComicCreators[] $creators
  * @property Issues[] $issues
+
+ * @property string imageUrl
+ * @property array nextIssueData
  */
 class Comics extends \yii\db\ActiveRecord
 {
@@ -157,12 +160,32 @@ class Comics extends \yii\db\ActiveRecord
         return $this->hasMany(Issues::className(), ['comic_id' => 'id']);
     }
 
+    /**
+     * @return string|null
+     */
     public function getImageUrl()
     {
         if (!$this->image_id)
             return null;
 
         return Images::getUrl($this->image_id);
+    }
+
+    /**
+     * @return array
+     */
+    public function getNextIssueData() {
+        $number = $this->issues_count + 1;
+
+        $title = $this->concluded && $this->issues_total === 1
+            ? $this->name
+            : "Vol. $number";
+
+        return [
+            'comic_id' => $this->id,
+            'number' => $number,
+            'title' => $title,
+        ];
     }
 
     public static function getComicsWithSettings($profileId)

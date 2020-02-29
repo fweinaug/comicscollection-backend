@@ -1,12 +1,14 @@
 <?php
 
+use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
-use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Comics */
+/* @var $issuesDataProvider yii\data\ActiveDataProvider */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Comics', 'url' => ['index']];
@@ -25,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-        <?= Html::a('Add Issue', ['issue/create', 'comic_id' => $model->id, 'number' => $model->issues_count + 1], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('Add Issue', ArrayHelper::merge(['issue/create'], $model->nextIssueData), ['class' => 'btn btn-default']) ?>
         <?= Html::a('Manage Creators', ['/comic-creators', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
     </p>
 
