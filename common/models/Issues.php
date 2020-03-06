@@ -205,6 +205,7 @@ class Issues extends \yii\db\ActiveRecord
             ->select([ 'issue_settings.*', 'issues.*' ])
             ->joinWith('settings')
             ->where([ 'issues.comic_id' => $comicId, 'issue_settings.profile_id' => $profileId ])
+            ->orderBy('issues.number')
             ->all();
     }
 

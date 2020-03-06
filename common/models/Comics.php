@@ -200,6 +200,7 @@ class Comics extends \yii\db\ActiveRecord
             ->leftJoin(['s' => $subquery], 's.comic_id = comics.id')
             ->innerJoin('comic_settings', 'comic_settings.comic_id = comics.id')
             ->where([ 'comic_settings.profile_id' => $profileId ])
+            ->orderBy('comics.name')
             ->with(['publisher'])
             ->all();
     }
