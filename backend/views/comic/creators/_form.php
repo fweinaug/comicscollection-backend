@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
     <?php $people = ArrayHelper::map(People::find()->orderBy('first_name, last_name')->all(), 'id', 'name') ?>
     <?= $form->field($model, 'person_id')->dropDownList($people)->label('Person') ?>
 
-    <?= $form->field($model, 'contribution')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'contribution')->textInput(['maxlength' => true, 'placeholder' => 'e.g. Writer,Artist']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
