@@ -60,7 +60,9 @@ class ComicCreators extends \yii\db\ActiveRecord
     {
         return [
             'person',
-            'contribution',
+            'contribution' => function ($model) {
+                return array_filter(explode(',', $model->contribution));
+            },
         ];
     }
 
