@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
+            'short_name',
             [
                 'label' => 'Image',
                 'format' => 'html',
@@ -42,6 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ) : null;
                 }
             ],
+            'founded',
             'description:ntext',
             'website:url',
             'created_at:datetime',

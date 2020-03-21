@@ -11,9 +11,11 @@ use yii\helpers\Url;
  *
  * @property int $id
  * @property string $name
+ * @property string $short_name
  * @property int $image_id
  * @property string $description
  * @property string $website
+ * @property integer $founded
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -45,11 +47,11 @@ class Publishers extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
-            [['image_id'], 'integer'],
+            [['name', 'short_name'], 'required'],
+            [['image_id', 'founded'], 'integer'],
             [['description', 'website'], 'string'],
             [['description', 'website'], 'default', 'value' => null],
-            [['name'], 'string', 'max' => 100],
+            [['name', 'short_name'], 'string', 'max' => 100],
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Images::className(), 'targetAttribute' => ['image_id' => 'id']],
         ];
     }
@@ -62,9 +64,11 @@ class Publishers extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'short_name' => 'Short Name',
             'image_id' => 'Image ID',
             'description' => 'Description',
             'website' => 'Website',
+            'founded' => 'Founded',
         ];
     }
 
@@ -76,9 +80,11 @@ class Publishers extends \yii\db\ActiveRecord
         return [
             'id',
             'name',
+            'short_name',
             'image' => function ($model) {
                 return $model->image_id !== null ? Images::getUrls($model->image_id) : null;
             },
+            'founded',
             'description',
             'website',
             'created_at' => function ($model) {
