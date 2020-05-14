@@ -7,6 +7,16 @@ It has a simple design but provides a couple of features to make managing the co
 
 The API is used by a [Flutter app to browse the collection](https://github.com/fweinaug/comicscollection-app).
 
+## Getting started
+
+To run the backend and API locally you can use the built-in PHP web server by running the following console 
+commands while in the project root directory:
+
+```
+php yii serve --docroot=./api/web
+php yii serve --docroot=./backend/web
+```
+
 ## Screenshots
 
 <table>
